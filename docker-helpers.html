@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guia Completo de Comandos Docker e GitHub SSH</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      padding: 20px;
+      color: #333;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    nav {
+      background: #2c3e50;
+      color: white;
+      padding: 15px;
+      margin-bottom: 30px;
+      border-radius: 5px;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    nav ul li {
+      margin: 8px 0;
+    }
+    nav ul li a {
+      color: #ecf0f1;
+      text-decoration: none;
+    }
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+    section {
+      margin-bottom: 50px;
+    }
+    article.comando {
+      background: #fff;
+      border-left: 5px solid #3498db;
+      padding: 10px 15px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+    article.comando p {
+      margin: 0 0 8px;
+      font-weight: bold;
+    }
+    pre {
+      background: #ecf0f1;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin: 0;
+    }
+    .aviso {
+      background: #f8d7da;
+      border-left: 5px solid #c0392b;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Guia Completo: Docker e GitHub via SSH</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#inicializar">Inicializar Docker</a></li>
+      <li><a href="#buildar-container">Inicializar e Buildar um Container</a></li>
+      <li><a href="#comandos-compose">Comandos Docker Compose</a></li>
+      <li><a href="#remover">Remover Containers, Imagens e Volumes</a></li>
+      <li><a href="#remocao-total">Remoção Completa do Docker</a></li>
+      <li><a href="#atualizar-compose">Atualizar Docker Compose</a></li>
+      <li><a href="#acessar-container">Acessar um Container</a></li>
+      <li><a href="#github-ssh">Conectar ao GitHub via SSH</a></li>
+    </ul>
+  </nav>
+
+  <section id="inicializar">
+    <h2>Inicializar Docker</h2>
+    <article class="comando">
+      <p>Iniciar o serviço Docker:</p>
+      <pre>sudo systemctl start docker</pre>
+    </article>
+    <article class="comando">
+      <p>Habilitar o Docker na inicialização do sistema:</p>
+      <pre>sudo systemctl enable docker</pre>
+    </article>
+  </section>
+
+  <section id="buildar-container">
+    <h2>Inicializar e Buildar um Container</h2>
+    <article class="comando">
+      <p>Criar o build de uma imagem a partir de um Dockerfile:</p>
+      <pre>docker build -t nome-da-imagem .</pre>
+    </article>
+    <article class="comando">
+      <p>Rodar um container com base na imagem criada:</p>
+      <pre>docker run -d --name nome-do-container -p 8080:80 nome-da-imagem</pre>
+    </article>
+    <article class="comando">
+      <p>Verificar se o container está rodando:</p>
+      <pre>docker ps</pre>
+    </article>
+    <article class="comando">
+      <p>Parar o container:</p>
+      <pre>docker stop nome-do-container</pre>
+    </article>
+    <article class="comando">
+      <p>Remover o container parado:</p>
+      <pre>docker rm nome-do-container</pre>
+    </article>
+  </section>
+
+  <section id="comandos-compose">
+    <h2>Comandos Docker Compose</h2>
+    <article class="comando">
+      <p>Iniciar os containers definidos no arquivo docker-compose.yml:</p>
+      <pre>docker-compose up</pre>
+      <p>O comando `docker-compose up` irá buscar as imagens definidas no arquivo `docker-compose.yml`, criar e iniciar os containers necessários.</p>
+    </article>
+    <article class="comando">
+      <p>Iniciar os containers em segundo plano (modo detached):</p>
+      <pre>docker-compose up -d</pre>
+      <p>Usando a opção `-d`, os containers são iniciados em segundo plano, permitindo que o terminal fique livre para outras tarefas.</p>
+    </article>
+    <article class="comando">
+      <p>Construir as imagens antes de iniciar os containers:</p>
+      <pre>docker-compose up --build</pre>
+      <p>Este comando força a reconstrução das imagens Docker antes de iniciar os containers.</p>
+    </article>
+    <article class="comando">
+      <p>Parar os containers:</p>
+      <pre>docker-compose down</pre>
+      <p>Este comando irá parar e remover os containers, redes e volumes associados ao projeto definido no arquivo `docker-compose.yml`.</p>
+    </article>
+    <article class="comando">
+      <p>Verificar o status dos containers:</p>
+      <pre>docker-compose ps</pre>
+      <p>Com este comando você pode visualizar o status dos containers definidos no `docker-compose.yml`.</p>
+    </article>
+    <article class="comando">
+      <p>Ver logs de um container:</p>
+      <pre>docker-compose logs nome-do-container</pre>
+      <p>Exibe os logs de um container específico em execução, útil para depuração.</p>
+    </article>
+    <article class="comando">
+      <p>Escalar o número de containers de um serviço:</p>
+      <pre>docker-compose up --scale nome-do-servico=quantidade</pre>
+      <p>Este comando permite aumentar ou diminuir o número de instâncias de um serviço no arquivo `docker-compose.yml`.</p>
+    </article>
+  </section>
+
+  <section id="remover">
+    <h2>Remover Containers, Imagens e Volumes</h2>
+    <article class="comando"><p>Parar todos os containers:</p>
+      <pre>docker container stop $(docker container ls -aq)</pre>
+    </article>
+    <article class="comando"><p>Remover todos os containers:</p>
+      <pre>docker container rm $(docker container ls -aq)</pre>
+    </article>
+    <article class="comando"><p>Remover todas as imagens:</p>
+      <pre>docker image rm $(docker image ls -aq)</pre>
+    </article>
+    <article class="comando"><p>Remover todos os volumes:</p>
+      <pre>docker volume rm $(docker volume ls -q)</pre>
+    </article>
+    <article class="comando"><p>Remover redes não utilizadas:</p>
+      <pre>docker network prune -f</pre>
+    </article>
+    <article class="comando"><p>Limpeza geral do sistema Docker:</p>
+      <pre>docker system prune -a -f</pre>
+    </article>
+  </section>
+
+  <section id="remocao-total">
+    <h2>Remoção Completa do Docker</h2>
+    <article class="comando"><p>Parar todos os containers ativos:</p>
+      <pre>docker container stop $(docker container ls -aq)</pre>
+    </article>
+    <article class="comando"><p>Remover todos os containers:</p>
+      <pre>docker container rm $(docker container ls -aq)</pre>
+    </article>
+    <article class="comando"><p>Remover todas as imagens (inclusive em uso):</p>
+      <pre>docker image rm -f $(docker image ls -aq)</pre>
+    </article>
+    <article class="comando"><p>Remover todos os volumes de dados:</p>
+      <pre>docker volume rm -f $(docker volume ls -q)</pre>
+    </article>
+    <article class="comando"><p>Remover redes personalizadas:</p>
+      <pre>docker network rm $(docker network ls | grep -v 'bridge\|host\|none' | awk '{print $1}')</pre>
+    </article>
+    <article class="comando">
+      <p>Limpeza total (cache, builders, volumes):</p>
+      <pre>docker system prune -a --volumes -f</pre>
+    </article>
+    <article class="comando">
+      <p>Comando único para executar tudo acima de uma só vez:</p>
+      <pre>
+docker container stop $(docker container ls -aq) && \
+docker container rm -f $(docker container ls -aq) && \
+docker image rm -f $(docker image ls -aq) && \
+docker volume rm -f $(docker volume ls -q) && \
+docker network rm $(docker network ls | grep -v 'bridge\|host\|none' | awk '{print $1}') && \
+docker system prune -a --volumes -f
+      </pre>
+      <div class="aviso">
+        ⚠️ <strong>Atenção:</strong> Esse comando remove absolutamente tudo do Docker. Use com extremo cuidado.
+      </div>
+    </article>
+  </section>
+
+  <section id="atualizar-compose">
+    <h2>Atualizar Docker Compose</h2>
+    <article class="comando"><p>Baixar a versão mais recente:</p>
+      <pre>
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" \
+  -o /usr/local/bin/docker-compose
+      </pre>
+    </article>
+    <article class="comando"><p>Dar permissão de execução:</p>
+      <pre>sudo chmod +x /usr/local/bin/docker-compose</pre>
+    </article>
+    <article class="comando"><p>Verificar a versão:</p>
+      <pre>docker-compose --version</pre>
+    </article>
+  </section>
+
+  <section id="acessar-container">
+    <h2>Acessar um Container</h2>
+    <article class="comando">
+      <p>Acessar um container em modo interativo:</p>
+      <pre>docker exec -it nome-do-container bash</pre>
+    </article>
+  </section>
+
+  <section id="github-ssh">
+    <h2>Conectar ao GitHub via SSH</h2>
+    <article class="comando">
+      <p>Gerar uma chave SSH (se não tiver uma):</p>
+      <pre>ssh-keygen -t rsa -b 4096 -C "seu-email@example.com"</pre>
+    </article>
+    <article class="comando">
+      <p>Adicionar a chave SSH ao agente:</p>
+      <pre>eval "$(ssh-agent -s)"</pre>
+      <p>Adicionar a chave ao agente:</p>
+      <pre>ssh-add ~/.ssh/id_rsa</pre>
+    </article>
+    <article class="comando">
+      <p>Adicionar a chave pública no GitHub:</p>
+      <pre>cat ~/.ssh/id_rsa.pub</pre>
+      <p>Copie a chave gerada e adicione nas configurações do GitHub.</p>
+    </article>
+  </section>
+
+</body>
+</html>
